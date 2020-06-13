@@ -18,20 +18,18 @@
 
 #include "Shader.h"
 #include "Logger.h"
-#include "ShaderProgram.h"
+#include "renderer/ShaderProgram.h"
 
 namespace GraviT {
 
 class Renderer {
 private:
-    GLFWwindow* window;
-    int shaderProgram;
-    unsigned int VBO, VAO, EBO;
-    
+    GLFWwindow* m_window;
+    int m_shaderProgram;
+    unsigned int VAO, VBO, EBO;
+    std::unique_ptr<GraviT::Logger> m_logger;
 public:
-    std::unique_ptr<GraviT::Logger> logger;
-    
-    Renderer() : window(nullptr), logger(std::make_unique<GraviT::Logger>("Renderer")) {}
+    Renderer() : m_window(nullptr), m_logger(std::make_unique<GraviT::Logger>("Renderer")) {}
     
     int Init();
     int Start();

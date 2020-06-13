@@ -36,8 +36,8 @@
 		2C41B13C248D54B900A6882A /* VertexArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VertexArray.h; sourceTree = "<group>"; };
 		2C41B13D248D556900A6882A /* Shader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		2C41B13E248DDD4D00A6882A /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
-		2C41B141248DE04600A6882A /* Fragment.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fragment.txt; sourceTree = "<group>"; };
-		2C41B142248DE05B00A6882A /* Vertex.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Vertex.txt; sourceTree = "<group>"; };
+		2C41B141248DE04600A6882A /* Fragment.shader */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fragment.shader; sourceTree = "<group>"; };
+		2C41B142248DE05B00A6882A /* Vertex.shader */ = {isa = PBXFileReference; lastKnownFileType = text; path = Vertex.shader; sourceTree = "<group>"; };
 		2C41B143248DF0F900A6882A /* ShaderProgram.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
 		2C41B144248DF25300A6882A /* ShaderProgram.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgram.cpp; sourceTree = "<group>"; };
 		2C6E089C248302D0005769F8 /* GraviT */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GraviT; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,8 +103,8 @@
 				2CAF2043248A9BB90064F11C /* logger */,
 				2CAF20CC248A9BB90064F11C /* main.cpp */,
 				2CAF2040248A9BB90064F11C /* renderer */,
-				2C41B141248DE04600A6882A /* Fragment.txt */,
-				2C41B142248DE05B00A6882A /* Vertex.txt */,
+				2C41B141248DE04600A6882A /* Fragment.shader */,
+				2C41B142248DE05B00A6882A /* Vertex.shader */,
 			);
 			path = src;
 			sourceTree = "<group>";

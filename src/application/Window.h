@@ -31,13 +31,12 @@ private:
     std::string m_title;
     bool m_isFullScreen;
     GLFWwindow* m_window;
-    
+    std::unique_ptr<GraviT::Logger> m_logger;
 public:
     dimensions windowDimensions;
-    std::unique_ptr<GraviT::Logger> logger;
     
     Window(std::string winTitle, unsigned int winWidth, unsigned int winHeight, bool fullScreen)
-         : m_title(winTitle), windowDimensions(winWidth, winHeight), m_isFullScreen(fullScreen), m_window(nullptr), logger(std::make_unique<GraviT::Logger>(m_title + " window")) {}
+         : m_title(winTitle), windowDimensions(winWidth, winHeight), m_isFullScreen(fullScreen), m_window(nullptr), m_logger(std::make_unique<GraviT::Logger>(m_title + " window")) {}
     
     // creates window on screen and context for rendering
     virtual int Init();

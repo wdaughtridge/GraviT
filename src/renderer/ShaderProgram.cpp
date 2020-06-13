@@ -6,7 +6,7 @@
 //  Copyright © 2020 William Daughtridge. All rights reserved.
 //
 
-#include "ShaderProgram.h"
+#include "renderer/ShaderProgram.h"
 
 int GraviT::ShaderProgram::Link() {
     glLinkProgram(m_programID);

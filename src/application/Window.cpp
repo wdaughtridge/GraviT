@@ -10,7 +10,7 @@
 
 int GraviT::Window::Init() {
     if (!glfwInit()) {
-        logger->ErrorLog(FILELOC, "GLFW not initialized.");
+        m_logger->ErrorLog(FILELOC, "GLFW not initialized.");
         return 1;
     }
 
@@ -25,7 +25,7 @@ int GraviT::Window::Init() {
     if (!m_window)
     {
         glfwTerminate();
-        logger->ErrorLog(FILELOC, "GLFW window not created.");
+        m_logger->ErrorLog(FILELOC, "GLFW window not created.");
         return 1;
     }
 

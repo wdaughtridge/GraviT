@@ -25,7 +25,6 @@ private:
     std::string m_instanceName;
     LogLevel m_currentLevel;
     std::vector<std::string> m_errorLocs;
-    
 public:
     Logger(const std::string& name) : m_instanceName(name), m_currentLevel(ALL) {}
     

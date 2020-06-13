@@ -8,10 +8,13 @@
 
 #include "Renderer.h"
 
+/*
+ Initialize GLEW
+ */
 int GraviT::Renderer::Init() {
     glewExperimental = GL_TRUE;
     if(glewInit()) {
-        logger->ErrorLog(FILELOC, "glew was not initialized.");
+        m_logger->ErrorLog(FILELOC, "glew was not initialized.");
         return 1;
     }
     
@@ -19,6 +22,7 @@ int GraviT::Renderer::Init() {
 }
 
 int GraviT::Renderer::BindArrays() {
+    //TODO: split into classes and objs
     float vertices[] = {
          0.5f,  0.5f, 0.0f,  // top right
          0.5f, -0.5f, 0.0f,  // bottom right
@@ -55,37 +59,42 @@ int GraviT::Renderer::BindArrays() {
 
 int GraviT::Renderer::Start() {
     // shaders
-    std::unique_ptr<GraviT::Shader> frag = std::make_unique<GraviT::Shader>(Fragment,"/Users/wdaughtridge/GraviT/GraviT/src/Fragment.txt");
-    std::unique_ptr<GraviT::Shader> vert = std::make_unique<GraviT::Shader>(Vertex,"/Users/wdaughtridge/GraviT/GraviT/src/Vertex.txt");
+    const char *src1 = "#version 330 core\n"
+        "layout (location = 0) in vec3 aPos;\n"
+        "void main()\n"
+        "{\n"
+        "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+        "}\0";
+    const char *src2 = "#version 330 core\n"
+        "out vec4 FragColor;\n"
+        "void main()\n"
+        "{\n"
+        "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+        "}\n\0";
+    
     GraviT::ShaderProgram program;
+    GraviT::Shader frag(Fragment,src2);
+    GraviT::Shader vert(Vertex,src1);
     
-    frag->Create();
-    vert->Create();
-    
-    frag->Attach(program.Get());
-    vert->Attach(program.Get());
+    frag.AttachTo(program);
+    vert.AttachTo(program);
     
     program.Link();
     
-    frag->Delete();
-    vert->Delete();
+    frag.Delete();
+    vert.Delete();
     
     BindArrays();
     
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(m_window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
         
-        // draw our first triangle
-        glUseProgram(shaderProgram);
-        glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-        //glDrawArrays(GL_TRIANGLES, 0, 6);
+        glUseProgram(program.GetID());
+        glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        // glBindVertexArray(0); // no need to unbind it every time
-
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
-        glfwSwapBuffers(window);
+        
+        glfwSwapBuffers(m_window);
         glfwPollEvents();
     }
 
@@ -94,7 +103,7 @@ int GraviT::Renderer::Start() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-    glDeleteProgram(shaderProgram);
+    glDeleteProgram(m_shaderProgram);
     
     return 0;
 }
@@ -102,7 +111,7 @@ int GraviT::Renderer::Start() {
 int GraviT::Renderer::AssignWindow(GLFWwindow *window) {
     if (window == nullptr) return 1;
     
-    this->window = window;
+    this->m_window = window;
     
     return 0;
 }

@@ -10,8 +10,6 @@
         
 int main(int argc, const char * argv[]) {
     GraviT::Application* app = new GraviT::Application;
-    app->m_logger->ErrorLog(FILELOC, "TESTING ERROR LOGGING!");
-    app->m_logger->PrintErrorLocs();
     app->Run();
     delete app;
 }

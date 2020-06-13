@@ -10,7 +10,7 @@
 #define ShaderProgram_h
 
 #include <GL/glew.h>
-#include "renderer/Shader.h"
+#include "renderer/ShaderProgram.h"
 
 namespace GraviT {
 
@@ -21,7 +21,7 @@ public:
     ShaderProgram() : m_programID(glCreateProgram()) {}
     
     int Link();
-    int Get() const { return m_programID; }
+    int GetID() const { return m_programID; }
 };
 
 }

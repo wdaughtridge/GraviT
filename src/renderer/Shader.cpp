@@ -8,12 +8,12 @@
 
 #include "Shader.h"
 
-int GraviT::Shader::GetSouceFromFile(const std::string &path) {
+int GraviT::Shader::GetSouceFromFile(const std::string& path) {
     std::string line;
     std::ifstream file(path, std::ifstream::in);
     
     if (!file.is_open())
-        logger->ErrorLog(FILELOC, "Shader source file not open.");
+        m_logger->ErrorLog(FILELOC, "Shader source file not open.");
     
     while (std::getline(file, line))
         m_source += line + '\n';
@@ -39,7 +39,7 @@ int GraviT::Shader::Create() {
     glGetShaderiv(m_shaderID, GL_COMPILE_STATUS, &res);
     if (!res) {
         glGetShaderInfoLog(m_shaderID, 256, NULL, error);
-        logger->ErrorLog(FILELOC, "Shader compilation failed! \n" + std::string(error));
+        m_logger->ErrorLog(FILELOC, "Shader compilation failed! \n" + std::string(error));
     }
     
     return 0;
@@ -51,8 +51,8 @@ int GraviT::Shader::Delete() {
     return 0;
 }
 
-int GraviT::Shader::Attach(const GraviT::ShaderProgram program) {
-    glAttachShader(program.Get(), m_shaderID);
+int GraviT::Shader::AttachTo(const GraviT::ShaderProgram& program) {
+    glAttachShader(program.GetID(), m_shaderID);
     
     return 0;
 }

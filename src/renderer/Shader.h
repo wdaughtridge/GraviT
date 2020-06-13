@@ -25,20 +25,21 @@ class Shader {
 private:
     const ShaderType m_type;
     int m_count;
-    std::unique_ptr<GraviT::Logger> logger;
+    std::unique_ptr<GraviT::Logger> m_logger;
     std::string m_source;
     int m_shaderID;
 public:
-    
-    Shader(const ShaderType& type, const std::string& path)
-        : m_type(type), m_count(1), logger(std::make_unique<GraviT::Logger>("Shader")) {
-        GetSouceFromFile(path);
+    Shader(const ShaderType& type, const std::string& src)
+        : m_type(type), m_count(1), m_logger(std::make_unique<GraviT::Logger>("Shader")), m_source(src)
+    {
+        Create();
     }
     
     int GetSouceFromFile(const std::string& path);
     int Create();
     int Delete();
-    int Attach(const GraviT::ShaderProgram program);
+    int AttachTo(const GraviT::ShaderProgram& program);
+    int GetID() const { return m_shaderID; }
 };
 
 }
