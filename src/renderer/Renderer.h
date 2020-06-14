@@ -18,7 +18,10 @@
 
 #include "Shader.h"
 #include "Logger.h"
-#include "renderer/ShaderProgram.h"
+#include "ShaderProgram.h"
+#include "VertexArray.h"
+#include "VertexBuffer.h"
+#include "ElementBuffer.h"
 
 namespace GraviT {
 

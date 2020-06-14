@@ -10,7 +10,7 @@
 #define ShaderProgram_h
 
 #include <GL/glew.h>
-#include "renderer/ShaderProgram.h"
+#include "ShaderProgram.h"
 
 namespace GraviT {
 

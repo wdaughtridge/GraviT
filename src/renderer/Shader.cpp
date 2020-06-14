@@ -8,7 +8,7 @@
 
 #include "Shader.h"
 
-int GraviT::Shader::GetSouceFromFile(const std::string& path) {
+int GraviT::Shader::GetSourceFromFile(const std::string& path) {
     std::string line;
     std::ifstream file(path, std::ifstream::in);
     

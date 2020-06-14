@@ -28,18 +28,28 @@ private:
     std::unique_ptr<GraviT::Logger> m_logger;
     std::string m_source;
     int m_shaderID;
+    int m_programID;
+    
+    int GetSourceFromFile(const std::string& path);
+    int Create();
 public:
     Shader(const ShaderType& type, const std::string& src)
-        : m_type(type), m_count(1), m_logger(std::make_unique<GraviT::Logger>("Shader")), m_source(src)
+        : m_type(type), m_count(1), m_logger(std::make_unique<GraviT::Logger>("Shader"))
     {
+        GetSourceFromFile(src);
         Create();
     }
     
-    int GetSouceFromFile(const std::string& path);
-    int Create();
+    Shader(const ShaderType& type, const std::string& src, const GraviT::ShaderProgram& program)
+        : m_type(type), m_count(1), m_logger(std::make_unique<GraviT::Logger>("Shader"))
+    {
+        GetSourceFromFile(src);
+        Create();
+        AttachTo(program);
+    }
+    
     int Delete();
     int AttachTo(const GraviT::ShaderProgram& program) const;
-    //int GetID() const { return m_shaderID; }
 };
 
 }
