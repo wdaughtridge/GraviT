@@ -20,7 +20,9 @@ private:
 public:
     ShaderProgram() : m_programID(glCreateProgram()) {}
     
-    int Link();
+    int Link() const;
+    int Use() const;
+    int Delete();
     int GetID() const { return m_programID; }
 };
 

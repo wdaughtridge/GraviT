@@ -8,8 +8,20 @@
 
 #include "renderer/ShaderProgram.h"
 
-int GraviT::ShaderProgram::Link() {
+int GraviT::ShaderProgram::Link() const {
     glLinkProgram(m_programID);
+    
+    return 0;
+}
+
+int GraviT::ShaderProgram::Use() const {
+    glUseProgram(m_programID);
+    
+    return 0;
+}
+
+int GraviT::ShaderProgram::Delete() {
+    glDeleteProgram(m_programID);
     
     return 0;
 }

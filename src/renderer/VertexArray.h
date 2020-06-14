@@ -9,13 +9,18 @@
 #ifndef VertexArray_h
 #define VertexArray_h
 
+#include <GL/glew.h>
+
 namespace GraviT {
 
 class VertexArray {
 private:
-    
+    unsigned int m_arrayID;
 public:
-    
+    VertexArray() { glGenVertexArrays(1, &m_arrayID); }
+    int Bind() const;
+    int Delete();
+    //int GetID() const { return m_arrayID; }
 };
 
 }

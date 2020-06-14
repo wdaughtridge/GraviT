@@ -29,8 +29,8 @@ int GraviT::Window::Init() {
         return 1;
     }
 
-    glfwMakeContextCurrent(m_window);
     glViewport(0, 0, windowDimensions.m_width, windowDimensions.m_height);
+    glfwMakeContextCurrent(m_window);
     
     return 0;
 }

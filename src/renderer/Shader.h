@@ -38,8 +38,8 @@ public:
     int GetSouceFromFile(const std::string& path);
     int Create();
     int Delete();
-    int AttachTo(const GraviT::ShaderProgram& program);
-    int GetID() const { return m_shaderID; }
+    int AttachTo(const GraviT::ShaderProgram& program) const;
+    //int GetID() const { return m_shaderID; }
 };
 
 }

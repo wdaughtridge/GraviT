@@ -51,7 +51,7 @@ int GraviT::Shader::Delete() {
     return 0;
 }
 
-int GraviT::Shader::AttachTo(const GraviT::ShaderProgram& program) {
+int GraviT::Shader::AttachTo(const GraviT::ShaderProgram& program) const {
     glAttachShader(program.GetID(), m_shaderID);
     
     return 0;

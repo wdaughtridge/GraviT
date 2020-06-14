@@ -25,7 +25,6 @@ namespace GraviT {
 class Renderer {
 private:
     GLFWwindow* m_window;
-    int m_shaderProgram;
     unsigned int VAO, VBO, EBO;
     std::unique_ptr<GraviT::Logger> m_logger;
 public:
@@ -33,7 +32,6 @@ public:
     
     int Init();
     int Start();
-    int BindArrays();
     int AssignWindow(GLFWwindow* window);
 };
 
