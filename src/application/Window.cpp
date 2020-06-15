@@ -29,7 +29,10 @@ int GraviT::Window::Init() {
         return 1;
     }
 
-    glViewport(0, 0, windowDimensions.m_width, windowDimensions.m_height);
+    int width, height;
+    glfwGetFramebufferSize(m_window, &width, &height);
+    glViewport(0, 0, width, height);
+
     glfwMakeContextCurrent(m_window);
     
     return 0;

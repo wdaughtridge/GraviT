@@ -11,7 +11,7 @@
 /*
  Initialize GLEW
  */
-int GraviT::Renderer::Init() {
+int GraviT::Renderer::Init() const {
     glewExperimental = GL_TRUE;
     if(glewInit()) {
         m_logger->ErrorLog(FILELOC, "glew was not initialized.");
@@ -21,74 +21,51 @@ int GraviT::Renderer::Init() {
     return 0;
 }
 
-int GraviT::Renderer::Start() {
-    float vertices[] = {
-         0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-         0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-        -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-         1.0f,  1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-         1.0f,  0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-         0.0f,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-         0.0f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f
-    };
-    unsigned int indices[] = {
-        0, 1, 3,  // first square
-        1, 2, 3
-    };
-    unsigned int indices2[] = {
-        4, 5, 7,  // second square
-        5, 6, 7
-    };
-    float rotate[] = {
-        1.19f, 0.49f, 0.0f, 0.0f,
-        -0.21f, 0.49f, 0.0f, 0.0f,
-        -0.7f, 0.7f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 1.0f
-    };
-    float transpose[] = {
-        1.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f,
-    };
-    float identity[] = {
-        1.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-    };
-    float rot45[] = {
-        0.7f, 0.7f, 0.0f, 0.0f,
-       -0.7f, 0.7f, 0.0f, 0.0f,
-        0.0f, 0.0f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f,
-    };
+float vertices[] = {
+     0.5f,  0.5f, 0.0f,     1.0f, 0.0f, 0.0f,
+     0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 0.0f,
+    -0.5f, -0.5f, 0.0f,     0.0f, 0.0f, 1.0f,
+    -0.5f,  0.5f, 0.0f,     1.0f, 0.0f, 0.0f,
+     1.0f,  1.0f, 0.0f,     0.0f, 0.0f, 1.0f,
+     1.0f,  0.0f, 0.0f,     1.0f, 1.0f, 0.0f,
+     0.0f,  0.0f, 0.0f,     0.0f, 1.0f, 1.0f,
+     0.0f,  1.0f, 0.0f,     1.0f, 0.0f, 1.0f
+};
+unsigned int indices[] = {
+    0, 1, 3,  // first square
+    1, 2, 3
+};
+unsigned int indices2[] = {
+    4, 5, 7,  // second square
+    5, 6, 7
+};
+
+int GraviT::Renderer::Start() const {
+    // create program with shaders from files
+    GraviT::Shader frag(Shader::Fragment, "/Users/wdaughtridge/GraviT/GraviT/src/shaders/rainbow.frag.shader");
+    GraviT::Shader vert(Shader::Vertex, "/Users/wdaughtridge/GraviT/GraviT/src/shaders/rainbow.vert.shader");
+    GraviT::ShaderProgram program(vert, frag);
     
-    GraviT::ShaderProgram program;
+    // create program with shaders from files
+    GraviT::Shader frag2(Shader::Fragment, "/Users/wdaughtridge/GraviT/GraviT/src/shaders/red.frag.shader");
+    GraviT::Shader vert2(Shader::Vertex, "/Users/wdaughtridge/GraviT/GraviT/src/shaders/red.vert.shader");
+    GraviT::ShaderProgram program2(vert, frag);
     
-    //TODO:: FIX TO RELATIVE PATH
-    GraviT::Shader frag(Fragment, "/Users/wdaughtridge/GraviT/GraviT/src/shaders/Fragment.shader", program);
-    GraviT::Shader vert(Vertex, "/Users/wdaughtridge/GraviT/GraviT/src/shaders/Vertex.shader", program);
-    
-    program.Link();
-    
-    frag.Delete();
-    vert.Delete();
-    
+    // generate vao, vbo, and ebo's for a set of vertices
     GraviT::VertexArray vao;
     GraviT::VertexBuffer vbo;
     GraviT::ElementBuffer ebo;
     GraviT::ElementBuffer ebo2;
     
     vao.Bind();
-    vbo.Bind();
     
+    // give the buffer some vertex data
+    vbo.Bind();
     vbo.BufferData(vertices, sizeof(vertices));
 
+    // how the vertices should be drawn
     ebo.Bind();
     ebo.BufferData(indices, sizeof(indices));
-    
     ebo2.Bind();
     ebo.BufferData(indices2, sizeof(indices2));
 
@@ -98,25 +75,17 @@ int GraviT::Renderer::Start() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
+    // unbind the current vao and vbo
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+    
+    GraviT::Mat4 identity(1.0);
     
     while (!glfwWindowShouldClose(m_window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
         
-        int transformLoc = glGetUniformLocation(program.GetID(), "transformation");
-        program.Use();
-        vao.Bind();
-        ebo.Bind();
-        
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, identity);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        
-        ebo2.Bind();
-        
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, identity);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        Draw(vao, ebo, program2, "transformation", identity.m_mat4);
         
         glfwSwapBuffers(m_window);
         glfwPollEvents();
@@ -124,7 +93,8 @@ int GraviT::Renderer::Start() {
 
     vao.Delete();
     vbo.Delete();
-    glDeleteBuffers(1, &EBO);
+    ebo.Delete();
+    ebo2.Delete();
     program.Delete();
     
     return 0;
@@ -135,5 +105,16 @@ int GraviT::Renderer::AssignWindow(GLFWwindow *window) {
     
     this->m_window = window;
     
+    return 0;
+}
+
+int GraviT::Renderer::Draw(GraviT::VertexArray &vao, GraviT::ElementBuffer &ebo, GraviT::ShaderProgram &program, const char* name, const float *mat4) const {
+    vao.Bind();
+    ebo.Bind();
+    program.Use();
+    int transformLoc = glGetUniformLocation(program.GetID(), name);
+    if (transformLoc != -1)
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, mat4);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     return 0;
 }

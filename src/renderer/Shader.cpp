@@ -7,6 +7,7 @@
 //
 
 #include "Shader.h"
+#include "ShaderProgram.h"
 
 int GraviT::Shader::GetSourceFromFile(const std::string& path) {
     std::string line;
@@ -51,8 +52,8 @@ int GraviT::Shader::Delete() {
     return 0;
 }
 
-int GraviT::Shader::AttachTo(const GraviT::ShaderProgram& program) const {
-    glAttachShader(program.GetID(), m_shaderID);
+int GraviT::Shader::AttachTo(const int programID) const {
+    glAttachShader(programID, m_shaderID);
     
     return 0;
 }

@@ -21,6 +21,7 @@ public:
     ElementBuffer() : target(GL_ELEMENT_ARRAY_BUFFER) { glGenBuffers(1, &m_bufferID); }
     
     int Bind() const;
+    int Delete();
     int BufferData(const void* vertices, const int size) const;
 };
 

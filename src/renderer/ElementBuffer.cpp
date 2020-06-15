@@ -19,3 +19,9 @@ int GraviT::ElementBuffer::BufferData(const void* vertices, const int size) cons
     
     return 0;
 }
+
+int GraviT::ElementBuffer::Delete() {
+    glDeleteBuffers(1, &m_bufferID);
+    
+    return 0;
+}

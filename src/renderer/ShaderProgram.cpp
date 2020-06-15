@@ -7,6 +7,7 @@
 //
 
 #include "ShaderProgram.h"
+#include "Shader.h"
 
 int GraviT::ShaderProgram::Link() const {
     glLinkProgram(m_programID);
@@ -22,6 +23,16 @@ int GraviT::ShaderProgram::Use() const {
 
 int GraviT::ShaderProgram::Delete() {
     glDeleteProgram(m_programID);
+    
+    return 0;
+}
+
+int GraviT::ShaderProgram::HandleShaders(GraviT::Shader &vertex, GraviT::Shader &fragment) const {
+    vertex.AttachTo(m_programID);
+    fragment.AttachTo(m_programID);
+    Link();
+    vertex.Delete();
+    fragment.Delete();
     
     return 0;
 }

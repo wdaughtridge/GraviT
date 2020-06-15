@@ -41,12 +41,15 @@
 		2C41B13C248D54B900A6882A /* VertexArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VertexArray.h; sourceTree = "<group>"; };
 		2C41B13D248D556900A6882A /* Shader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		2C41B13E248DDD4D00A6882A /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
-		2C41B141248DE04600A6882A /* Fragment.shader */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fragment.shader; sourceTree = "<group>"; };
-		2C41B142248DE05B00A6882A /* Vertex.shader */ = {isa = PBXFileReference; lastKnownFileType = text; path = Vertex.shader; sourceTree = "<group>"; };
+		2C41B141248DE04600A6882A /* rainbow.frag.shader */ = {isa = PBXFileReference; lastKnownFileType = text; path = rainbow.frag.shader; sourceTree = "<group>"; };
+		2C41B142248DE05B00A6882A /* rainbow.vert.shader */ = {isa = PBXFileReference; lastKnownFileType = text; path = rainbow.vert.shader; sourceTree = "<group>"; };
 		2C41B143248DF0F900A6882A /* ShaderProgram.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
 		2C41B144248DF25300A6882A /* ShaderProgram.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgram.cpp; sourceTree = "<group>"; };
-		2C6D745E2496907A00B015A3 /* glm.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = glm.hpp; path = ../../../../../Downloads/glm/glm/glm.hpp; sourceTree = "<group>"; };
+		2C6D756B2496D54200B015A3 /* red.vert.shader */ = {isa = PBXFileReference; lastKnownFileType = text; path = red.vert.shader; sourceTree = "<group>"; };
+		2C6D756C2496D55000B015A3 /* red.frag.shader */ = {isa = PBXFileReference; lastKnownFileType = text; path = red.frag.shader; sourceTree = "<group>"; };
 		2C6E089C248302D0005769F8 /* GraviT */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GraviT; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C6F737C2497D7C200521BE3 /* Mat4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mat4.h; sourceTree = "<group>"; };
+		2C6F737D2497DB7800521BE3 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
 		2C96B6B524954E8200657EE6 /* VertexArray.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VertexArray.cpp; sourceTree = "<group>"; };
 		2C96B6B724954FB600657EE6 /* VertexBuffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VertexBuffer.cpp; sourceTree = "<group>"; };
 		2CAF2041248A9BB90064F11C /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
@@ -88,18 +91,12 @@
 		2C6D745C2496887C00B015A3 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
-				2C41B141248DE04600A6882A /* Fragment.shader */,
-				2C41B142248DE05B00A6882A /* Vertex.shader */,
+				2C41B141248DE04600A6882A /* rainbow.frag.shader */,
+				2C41B142248DE05B00A6882A /* rainbow.vert.shader */,
+				2C6D756C2496D55000B015A3 /* red.frag.shader */,
+				2C6D756B2496D54200B015A3 /* red.vert.shader */,
 			);
 			path = shaders;
-			sourceTree = "<group>";
-		};
-		2C6D745D2496905E00B015A3 /* glm */ = {
-			isa = PBXGroup;
-			children = (
-				2C6D745E2496907A00B015A3 /* glm.hpp */,
-			);
-			path = glm;
 			sourceTree = "<group>";
 		};
 		2C6E0893248302D0005769F8 = {
@@ -119,9 +116,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		2C6F737B2497D79300521BE3 /* helper */ = {
+			isa = PBXGroup;
+			children = (
+				2C6F737C2497D7C200521BE3 /* Mat4.h */,
+			);
+			path = helper;
+			sourceTree = "<group>";
+		};
 		2CAF203F248A9BB90064F11C /* src */ = {
 			isa = PBXGroup;
 			children = (
+				2C6F737B2497D79300521BE3 /* helper */,
 				2C6D745C2496887C00B015A3 /* shaders */,
 				2C41B136248CA0C200A6882A /* asset */,
 				2CAF20C7248A9BB90064F11C /* application */,
@@ -136,6 +142,8 @@
 		2CAF2040248A9BB90064F11C /* renderer */ = {
 			isa = PBXGroup;
 			children = (
+				2C14759324956136002701C4 /* ElementBuffer.cpp */,
+				2C14759224955F7D002701C4 /* ElementBuffer.h */,
 				2CAF2042248A9BB90064F11C /* Renderer.cpp */,
 				2CAF2041248A9BB90064F11C /* Renderer.h */,
 				2C41B13E248DDD4D00A6882A /* Shader.cpp */,
@@ -146,8 +154,6 @@
 				2C41B13C248D54B900A6882A /* VertexArray.h */,
 				2C96B6B724954FB600657EE6 /* VertexBuffer.cpp */,
 				2C41B13B248D54AE00A6882A /* VertexBuffer.h */,
-				2C14759224955F7D002701C4 /* ElementBuffer.h */,
-				2C14759324956136002701C4 /* ElementBuffer.cpp */,
 			);
 			path = renderer;
 			sourceTree = "<group>";
@@ -164,7 +170,7 @@
 		2CAF2046248A9BB90064F11C /* ext */ = {
 			isa = PBXGroup;
 			children = (
-				2C6D745D2496905E00B015A3 /* glm */,
+				2C6F737D2497DB7800521BE3 /* stb_image.h */,
 			);
 			path = ext;
 			sourceTree = "<group>";
