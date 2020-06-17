@@ -30,7 +30,7 @@ private:
     std::unique_ptr<GraviT::Renderer> m_renderer;
     std::unique_ptr<GraviT::Logger> m_logger;
 public:
-    Application() : m_window(std::make_unique<GraviT::Window>("GraviT", 960, 720, false)), m_renderer(std::make_unique<GraviT::Renderer>()), m_logger(std::make_unique<GraviT::Logger>("Application")) {}
+    Application() : m_window(std::make_unique<GraviT::Window>("GraviT", 700, 700, false)), m_renderer(std::make_unique<GraviT::Renderer>()), m_logger(std::make_unique<GraviT::Logger>("Application")) {}
     
     virtual int Run();
 };

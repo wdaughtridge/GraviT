@@ -21,8 +21,10 @@
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "ElementBuffer.h"
+#include "Texture.h"
 #include "Shader.h"
 #include "ShaderProgram.h"
+#include "Object.h"
 #include "Mat4.h"
 
 namespace GraviT {
@@ -36,7 +38,7 @@ public:
     
     int Init() const;
     int Start() const;
-    int Draw(GraviT::VertexArray& vao, GraviT::ElementBuffer& ebo, GraviT::ShaderProgram& program, const char* name, const float *mat4) const;
+    int Draw(GraviT::VertexArray& vao, GraviT::ElementBuffer& ebo, GraviT::ShaderProgram& program) const;
     int AssignWindow(GLFWwindow* window);
 };
 
