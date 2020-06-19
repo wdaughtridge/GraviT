@@ -8,20 +8,14 @@
 
 #include "ElementBuffer.h"
 
-int GraviT::ElementBuffer::Bind() const {
+void GraviT::ElementBuffer::Bind() const {
     glBindBuffer(target, m_bufferID);
-    
-    return 0;
 }
 
-int GraviT::ElementBuffer::BufferData(const void* vertices, const int size) const {
+void GraviT::ElementBuffer::BufferData(const void* vertices, const int size) const {
     glBufferData(target, size, vertices, GL_STATIC_DRAW);
-    
-    return 0;
 }
 
-int GraviT::ElementBuffer::Delete() {
+void GraviT::ElementBuffer::Delete() {
     glDeleteBuffers(1, &m_bufferID);
-    
-    return 0;
 }

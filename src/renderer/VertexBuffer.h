@@ -23,7 +23,7 @@ public:
     int Bind() const;
     int Delete();
     int BufferData(const void* vertices, const int size) const;
-    //int GetID() const { return m_bufferID; }
+    void Unbind() const { glBindBuffer(GL_ARRAY_BUFFER, 0); }
 };
 
 }

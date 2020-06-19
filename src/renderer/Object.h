@@ -11,73 +11,104 @@
 
 #include <vector>
 #include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "ElementBuffer.h"
 #include "Mat4.h"
+#include "ShaderProgram.h"
+#include "Texture.h"
 
 namespace GraviT {
 
-class Object_2D {
+class Object {
 private:
     std::vector<float> m_vertexData;
-    std::vector<float> m_position;
     std::vector<unsigned int> m_indexData;
     
-    int vertexCount;
-    int colorCount;
-    int textureCount;
-    int attribTotalCount;
+    int m_vertexCount;
+    int m_colorCount;
+    int m_textureCount;
+    int m_attribTotalCount;
     
-    GraviT::VertexArray vao;
-    GraviT::VertexBuffer vbo;
-    GraviT::ElementBuffer ebo;
+    GraviT::VertexArray m_vao;
+    GraviT::VertexBuffer m_vbo;
+    GraviT::ElementBuffer m_ebo;
+    GraviT::Texture m_spriteSheet;
+    
+    glm::mat4 m_model;
+    glm::vec3 m_position;
+    glm::vec2 m_spriteIndex;
 public:
-    GraviT::Mat4 translation;
     
-    Object_2D (std::initializer_list<float> vertexData, std::initializer_list<float> position, std::initializer_list<unsigned int> indexData, const int vCount = 3, const int cCount = 3, const int tCount = 2) : translation(position) {
-        vertexCount = vCount;
-        colorCount = cCount;
-        textureCount = tCount;
-        attribTotalCount = vertexCount + colorCount + textureCount;
+    Object (std::initializer_list<float> vertexData, glm::vec3 position, std::initializer_list<unsigned int> indexData, GraviT::Texture& spriteSheet, glm::vec2 spriteIndex = glm::vec2(0, 0), const int vCount = 3, const int cCount = 3, const int tCount = 2)
+    : m_vertexData(vertexData), m_indexData(indexData), m_vertexCount(vCount), m_colorCount(cCount), m_textureCount(tCount), m_spriteSheet(spriteSheet), m_position(position), m_model(1.0f), m_spriteIndex(spriteIndex)
+    {
+        m_attribTotalCount = m_vertexCount + m_colorCount + m_textureCount;
+        int numRows = (int)vertexData.size() / m_attribTotalCount;
         
-        for (auto c : vertexData) {
-            m_vertexData.push_back(c);
-        }
-        for (auto p : position) {
-            m_position.push_back(p);
-        }
-        for (auto i : indexData) {
-            m_indexData.push_back(i);
+        glm::vec2 sheetDimensions = m_spriteSheet.GetDimensions();
+        float spriteSize = 16.0f;
+        
+        float x_pixel = ((spriteSize * spriteIndex.x) + spriteIndex.x) / sheetDimensions.x;
+        float y_pixel = ((spriteSize * spriteIndex.y) + spriteIndex.y) / sheetDimensions.y;
+        
+        float index;
+        float blockRatioX = 16.0f/sheetDimensions.x;
+        float blockRatioY = 16.0f/sheetDimensions.y;
+        
+        for (float i = 0.0f; i < numRows; i++) {
+            index = (i * m_attribTotalCount) + vCount + cCount;
+            m_vertexData[index] = x_pixel + m_vertexData[index]*(blockRatioX);
+            m_vertexData[index + 1] = y_pixel + m_vertexData[index + 1]*(blockRatioY);
         }
         
         // go ahead and fill the buffers with the passed in data
-        vao.Bind();
-        vbo.Bind();
-        vbo.BufferData(m_vertexData.data(), (int)(sizeof(float)*m_vertexData.size()));
-        ebo.Bind();
-        ebo.BufferData(m_indexData.data(), (int)(sizeof(unsigned int)*m_indexData.size()));
+        m_vao.Bind();
+        m_vbo.Bind();
+        m_vbo.BufferData(m_vertexData.data(), (int)(sizeof(float)*m_vertexData.size()));
+        m_ebo.Bind();
+        m_ebo.BufferData(m_indexData.data(), (int)(sizeof(unsigned int)*m_indexData.size()));
         
-        glVertexAttribPointer(0, vertexCount, GL_FLOAT, GL_FALSE, attribTotalCount * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, m_vertexCount, GL_FLOAT, GL_FALSE, m_attribTotalCount * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, colorCount, GL_FLOAT, GL_FALSE, attribTotalCount * sizeof(float), (void*)(vertexCount * sizeof(float)));
+        glVertexAttribPointer(1, m_colorCount, GL_FLOAT, GL_FALSE, m_attribTotalCount * sizeof(float), (void*)(m_vertexCount * sizeof(float)));
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(2, textureCount, GL_FLOAT, GL_FALSE, attribTotalCount * sizeof(float), (void*)((colorCount + vertexCount) * sizeof(float)));
+        glVertexAttribPointer(2, m_textureCount, GL_FLOAT, GL_FALSE, m_attribTotalCount * sizeof(float), (void*)((m_colorCount + m_vertexCount) * sizeof(float)));
         glEnableVertexAttribArray(2);
     }
     
-    ~Object_2D() {
-        vao.Delete();
-        vbo.Delete();
-        ebo.Delete();
+    Object (std::initializer_list<float> vertexData, glm::vec3 position, std::initializer_list<unsigned int> indexData, const int vCount = 3, const int cCount = 3, const int tCount = 2)
+    : m_vertexData(vertexData), m_indexData(indexData), m_vertexCount(vCount), m_colorCount(cCount), m_textureCount(tCount), m_spriteSheet(nullptr), m_position(position), m_model(1.0f), m_spriteIndex(glm::vec2(0.0f, 0.0f))
+    {
+        m_attribTotalCount = m_vertexCount + m_colorCount + m_textureCount;
+        // go ahead and fill the buffers with the passed in data
+        m_vao.Bind();
+        m_vbo.Bind();
+        m_vbo.BufferData(m_vertexData.data(), (int)(sizeof(float)*m_vertexData.size()));
+        m_ebo.Bind();
+        m_ebo.BufferData(m_indexData.data(), (int)(sizeof(unsigned int)*m_indexData.size()));
+        
+        glVertexAttribPointer(0, m_vertexCount, GL_FLOAT, GL_FALSE, m_attribTotalCount * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, m_colorCount, GL_FLOAT, GL_FALSE, m_attribTotalCount * sizeof(float), (void*)(m_vertexCount * sizeof(float)));
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, m_textureCount, GL_FLOAT, GL_FALSE, m_attribTotalCount * sizeof(float), (void*)((m_colorCount + m_vertexCount) * sizeof(float)));
+        glEnableVertexAttribArray(2);
     }
     
-    int Draw();
-};
-
-class Object_3D {
+    ~Object() {
+        m_vao.Delete();
+        m_vbo.Delete();
+        m_ebo.Delete();
+    }
     
+    int Draw(GraviT::ShaderProgram& prog, GraviT::Texture& tex);
+    int DrawAtPos(GraviT::ShaderProgram& prog, glm::vec3 pos);
+    int DrawAtPos(GraviT::ShaderProgram& prog, GraviT::Texture& tex, glm::vec3 pos);
 };
 
 }

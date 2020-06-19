@@ -40,7 +40,7 @@ public:
     void FatalLog(const std::string& fatal);
     
     void SetLevel(LogLevel newLevel);
-    void PrintErrorLocs();
+    void PrintErrorLocs() const;
 };
 
 }

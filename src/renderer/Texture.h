@@ -10,15 +10,21 @@
 #define Texture_h
 
 #include <GL/glew.h>
+#include <glm/glm.hpp>
 
 namespace GraviT {
 
 class Texture {
 private:
     unsigned int m_textureID;
+    int m_textureHeight;
+    int m_textureWidth;
+    int m_nrChannels;
+    
 public:
     Texture(const char* source) {
-        if (source) return;
+        if (!source) return;
+        glBindVertexArray(1);
         
         glGenTextures(1, &m_textureID);
         glBindTexture(GL_TEXTURE_2D, m_textureID);
@@ -27,12 +33,13 @@ public:
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         
         LoadTextureFromFile(source);
     }
     
-    int LoadTextureFromFile(const char* source) const;
+    glm::vec2 GetDimensions() const { return glm::vec2(m_textureWidth, m_textureHeight); }
+    int LoadTextureFromFile(const char* source);
     int Bind() const;
 };
 

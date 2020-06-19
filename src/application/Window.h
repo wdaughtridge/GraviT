@@ -10,6 +10,7 @@
 #define Window_h
 
 #include <string>
+#include <queue>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
@@ -30,17 +31,19 @@ class Window {
 private:
     std::string m_title;
     bool m_isFullScreen;
-    GLFWwindow* m_window;
     std::unique_ptr<GraviT::Logger> m_logger;
 public:
+    GLFWwindow* m_window;
     dimensions windowDimensions;
     
     Window(std::string winTitle, unsigned int winWidth, unsigned int winHeight, bool fullScreen)
-         : m_title(winTitle), windowDimensions(winWidth, winHeight), m_isFullScreen(fullScreen), m_window(nullptr), m_logger(std::make_unique<GraviT::Logger>(m_title + " window")) {}
+         : m_title(winTitle), windowDimensions(winWidth, winHeight), m_isFullScreen(fullScreen), m_logger(std::make_unique<GraviT::Logger>(m_title + " window")), m_window(nullptr) {}
     
     // creates window on screen and context for rendering
     virtual int Init();
-    GLFWwindow* getWindowLoc() const { return m_window; }
+
+    int SwapBuffers() const;
+    int ShouldClose() const;
 };
 
 }

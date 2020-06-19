@@ -8,10 +8,8 @@
 
 #include "Application.h"
 
-int GraviT::Application::Run() {
+int GraviT::Application::Run() const {
     if (m_window->Init()) m_logger->ErrorLog(FILELOC, "Application window not initialized.");
-    
-    m_renderer->AssignWindow(m_window->getWindowLoc());
     
     if (m_renderer->Init()) m_logger->ErrorLog(FILELOC, "Renderer not initialized.");
     

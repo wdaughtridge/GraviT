@@ -11,13 +11,12 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-int GraviT::Texture::LoadTextureFromFile(const char *source) const {
-    int width, height, nrChannels;
+int GraviT::Texture::LoadTextureFromFile(const char *source) {
     stbi_set_flip_vertically_on_load(true);
-    unsigned char* textureData = stbi_load(source, &width, &height, &nrChannels, 0);
+    unsigned char* textureData = stbi_load(source, &m_textureWidth, &m_textureHeight, &m_nrChannels, 0);
     
     if(textureData != nullptr) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_textureWidth, m_textureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
         glGenerateMipmap(GL_TEXTURE_2D);
     }
     else {

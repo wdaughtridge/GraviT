@@ -63,7 +63,7 @@ void GraviT::Logger::SetLevel(LogLevel newLevel) {
     m_currentLevel = newLevel;
 }
 
-void GraviT::Logger::PrintErrorLocs() {
+void GraviT::Logger::PrintErrorLocs() const {
     std::vector<std::string>::const_iterator it = m_errorLocs.cbegin();
     std::cout << '[' << m_instanceName << "] ~ERROR LOCATIONS~" << std::endl;
     

@@ -20,7 +20,7 @@ public:
     VertexArray() { glGenVertexArrays(1, &m_arrayID); }
     int Bind() const;
     int Delete();
-    //int GetID() const { return m_arrayID; }
+    void Unbind() const { glBindVertexArray(0); }
 };
 
 }

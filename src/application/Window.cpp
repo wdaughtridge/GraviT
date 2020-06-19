@@ -5,6 +5,7 @@
 //  Created by William Daughtridge on 6/5/20.
 //  Copyright © 2020 William Daughtridge. All rights reserved.
 //
+#define GL_SILENCE_DEPRECATION
 
 #include "Window.h"
 
@@ -22,8 +23,7 @@ int GraviT::Window::Init() {
 #endif
     
     m_window = glfwCreateWindow(windowDimensions.m_width, windowDimensions.m_height, "GraviT", NULL, NULL);
-    if (!m_window)
-    {
+    if (!m_window) {
         glfwTerminate();
         m_logger->ErrorLog(FILELOC, "GLFW window not created.");
         return 1;
@@ -33,7 +33,18 @@ int GraviT::Window::Init() {
     glfwGetFramebufferSize(m_window, &width, &height);
     glViewport(0, 0, width, height);
 
+    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwMakeContextCurrent(m_window);
+    
+    return 0;
+}
+
+int GraviT::Window::ShouldClose() const {
+    return glfwWindowShouldClose(m_window);
+}
+
+int GraviT::Window::SwapBuffers() const {
+    glfwSwapBuffers(m_window);
     
     return 0;
 }
