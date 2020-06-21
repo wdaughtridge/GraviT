@@ -16,8 +16,6 @@
 
 namespace GraviT {
 
-class ShaderProgram;
-
 class Shader {
 public:
     enum ShaderType { Vertex, Fragment };
@@ -29,25 +27,18 @@ private:
     int m_shaderID;
     int m_programID;
     
-    int GetSourceFromFile(const std::string& path);
-    int Create();
+    void GetSourceFromFile(const std::string& path);
+    void Create();
 public:
-    Shader(const Shader::ShaderType& type, const std::string& src)
-        : m_type(type), m_count(1), m_logger(std::make_unique<GraviT::Logger>("Shader"))
+    Shader(const Shader::ShaderType& type, const std::string& src, const int programID)
+        : m_type(type), m_count(1), m_logger(std::make_unique<GraviT::Logger>("Shader")), m_programID(programID)
     {
         GetSourceFromFile(src);
         Create();
     }
     
-    Shader(const Shader::ShaderType& type, const std::string& src, const GraviT::ShaderProgram& program)
-        : m_type(type), m_count(1), m_logger(std::make_unique<GraviT::Logger>("Shader"))
-    {
-        GetSourceFromFile(src);
-        Create();
-    }
-    
-    int Delete();
-    int AttachTo(const int programID) const;
+    void Delete() const;
+    void Attach() const;
 };
 
 }

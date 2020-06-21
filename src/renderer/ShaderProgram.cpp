@@ -9,32 +9,24 @@
 #include "ShaderProgram.h"
 #include "Shader.h"
 
-int GraviT::ShaderProgram::Link() const {
+void GraviT::ShaderProgram::Link() const {
     glLinkProgram(m_programID);
-    
-    return 0;
 }
 
-int GraviT::ShaderProgram::Use() const {
+void GraviT::ShaderProgram::Use() const {
     glUseProgram(m_programID);
-    
-    return 0;
 }
 
-int GraviT::ShaderProgram::Delete() {
+void GraviT::ShaderProgram::Delete() {
     glDeleteProgram(m_programID);
-    
-    return 0;
 }
 
-int GraviT::ShaderProgram::HandleShaders(GraviT::Shader &vertex, GraviT::Shader &fragment) const {
-    vertex.AttachTo(m_programID);
-    fragment.AttachTo(m_programID);
+void GraviT::ShaderProgram::HandleShaders() {
+    m_vert.Attach();
+    m_frag.Attach();
     Link();
-    vertex.Delete();
-    fragment.Delete();
-    
-    return 0;
+    m_vert.Delete();
+    m_frag.Delete();
 }
 
 void GraviT::ShaderProgram::setUniform1f(const char* uniName, float v0) {

@@ -10,25 +10,29 @@
 
 #include <GL/glew.h>
 #include "Logger.h"
+#include "Shader.h"
 
 namespace GraviT {
-
-class Shader;
 
 class ShaderProgram {
 private:
     int m_programID;
     std::unique_ptr<GraviT::Logger> m_logger;
     
-    int HandleShaders(GraviT::Shader& vertex, GraviT::Shader& fragment) const;
+    void HandleShaders();
+    
+    GraviT::Shader m_vert;
+    GraviT::Shader m_frag;
 public:
-    ShaderProgram(GraviT::Shader& vertex, GraviT::Shader& fragment) : m_programID(glCreateProgram()), m_logger(std::make_unique<GraviT::Logger>("ShaderProgram")) {
-        HandleShaders(vertex, fragment);
+    ShaderProgram(const char* vertsrc, const char* fragsrc)
+    : m_programID(glCreateProgram()), m_logger(std::make_unique<GraviT::Logger>("ShaderProgram")), m_vert(Shader::Vertex, vertsrc, m_programID), m_frag(Shader::Fragment, fragsrc, m_programID)
+    {
+        HandleShaders();
     }
     
-    int Link() const;
-    int Use() const;
-    int Delete();
+    void Link() const;
+    void Use() const;
+    void Delete();
     int GetID() const { return m_programID; }
     
     void setUniform1f(const char* uniName, float v0);

@@ -8,14 +8,10 @@
 
 #include "VertexArray.h"
 
-int GraviT::VertexArray::Bind() const {
+void GraviT::VertexArray::Bind() const {
     glBindVertexArray(m_arrayID);
-    
-    return 0;
 }
 
-int GraviT::VertexArray::Delete() {
+void GraviT::VertexArray::Delete() {
     glDeleteVertexArrays(1, &m_arrayID);
-    
-    return 0;
 }

@@ -46,10 +46,10 @@ private:
 public:
     Renderer(std::shared_ptr<GraviT::Window> window) : m_window(window), m_logger(std::make_unique<GraviT::Logger>("Renderer")) {}
     
-    int Init() const;
-    int Start() const;
+    void Init() const;
+    void Start() const;
     void UnbindCurrent() const;
-    int Draw(GraviT::VertexArray& vao, GraviT::ElementBuffer& ebo, GraviT::ShaderProgram& program) const;
+    void Draw(const GraviT::VertexArray &vao, const GraviT::ElementBuffer &ebo, const GraviT::ShaderProgram &program) const;
 };
 
 }

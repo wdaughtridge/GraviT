@@ -20,9 +20,9 @@ private:
 public:
     VertexBuffer() : m_target(GL_ARRAY_BUFFER) { glGenBuffers(1, &m_bufferID); }
     
-    int Bind() const;
-    int Delete();
-    int BufferData(const void* vertices, const int size) const;
+    void Bind() const;
+    void Delete();
+    void BufferData(const void* vertices, const int size, const GLenum dataType) const;
     void Unbind() const { glBindBuffer(GL_ARRAY_BUFFER, 0); }
 };
 

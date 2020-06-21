@@ -12,8 +12,8 @@ void GraviT::ElementBuffer::Bind() const {
     glBindBuffer(target, m_bufferID);
 }
 
-void GraviT::ElementBuffer::BufferData(const void* vertices, const int size) const {
-    glBufferData(target, size, vertices, GL_STATIC_DRAW);
+void GraviT::ElementBuffer::BufferData(const void* vertices, const int size, const GLenum dataType) const {
+    glBufferData(target, size, vertices, dataType);
 }
 
 void GraviT::ElementBuffer::Delete() {

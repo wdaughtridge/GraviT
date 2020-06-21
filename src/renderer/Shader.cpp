@@ -9,7 +9,7 @@
 #include "Shader.h"
 #include "ShaderProgram.h"
 
-int GraviT::Shader::GetSourceFromFile(const std::string& path) {
+void GraviT::Shader::GetSourceFromFile(const std::string& path) {
     std::string line;
     std::ifstream file(path, std::ifstream::in);
     
@@ -20,11 +20,9 @@ int GraviT::Shader::GetSourceFromFile(const std::string& path) {
         m_source += line + '\n';
     
     file.close();
-    
-    return 0;
 }
 
-int GraviT::Shader::Create() {
+void GraviT::Shader::Create() {
     if (m_type == Vertex)
         m_shaderID = glCreateShader(GL_VERTEX_SHADER);
     else if (m_type == Fragment)
@@ -42,18 +40,12 @@ int GraviT::Shader::Create() {
         glGetShaderInfoLog(m_shaderID, 256, NULL, error);
         m_logger->ErrorLog(FILELOC, "Shader compilation failed! \n" + std::string(error));
     }
-    
-    return 0;
 }
 
-int GraviT::Shader::Delete() {
+void GraviT::Shader::Delete() const {
     glDeleteShader(m_shaderID);
-    
-    return 0;
 }
 
-int GraviT::Shader::AttachTo(const int programID) const {
-    glAttachShader(programID, m_shaderID);
-    
-    return 0;
+void GraviT::Shader::Attach() const {
+    glAttachShader(m_programID, m_shaderID);
 }

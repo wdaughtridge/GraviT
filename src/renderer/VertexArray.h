@@ -18,8 +18,8 @@ private:
     unsigned int m_arrayID;
 public:
     VertexArray() { glGenVertexArrays(1, &m_arrayID); }
-    int Bind() const;
-    int Delete();
+    void Bind() const;
+    void Delete();
     void Unbind() const { glBindVertexArray(0); }
 };
 

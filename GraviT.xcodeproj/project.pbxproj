@@ -39,14 +39,12 @@
 /* Begin PBXFileReference section */
 		2C14759224955F7D002701C4 /* ElementBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ElementBuffer.h; sourceTree = "<group>"; };
 		2C14759324956136002701C4 /* ElementBuffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ElementBuffer.cpp; sourceTree = "<group>"; };
-		2C4061D4249D154500C477E9 /* colored.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = colored.jpg; path = ../../../Downloads/1bitpack_kenney_1.1/Tilesheet/colored.jpg; sourceTree = "<group>"; };
-		2C4061D5249D5F4000C477E9 /* spritesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spritesheet.png; sourceTree = "<group>"; };
 		2C41B13B248D54AE00A6882A /* VertexBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VertexBuffer.h; sourceTree = "<group>"; };
 		2C41B13C248D54B900A6882A /* VertexArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VertexArray.h; sourceTree = "<group>"; };
 		2C41B13D248D556900A6882A /* Shader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		2C41B13E248DDD4D00A6882A /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
-		2C41B141248DE04600A6882A /* rainbow.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = rainbow.frag; sourceTree = "<group>"; };
-		2C41B142248DE05B00A6882A /* rainbow.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = rainbow.vert; sourceTree = "<group>"; };
+		2C41B141248DE04600A6882A /* texture.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = texture.frag; sourceTree = "<group>"; };
+		2C41B142248DE05B00A6882A /* texture.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = texture.vert; sourceTree = "<group>"; };
 		2C41B143248DF0F900A6882A /* ShaderProgram.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
 		2C41B144248DF25300A6882A /* ShaderProgram.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgram.cpp; sourceTree = "<group>"; };
 		2C4E55CF2499584B000093C7 /* Texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
@@ -95,8 +93,6 @@
 		2C41B136248CA0C200A6882A /* asset */ = {
 			isa = PBXGroup;
 			children = (
-				2C4061D5249D5F4000C477E9 /* spritesheet.png */,
-				2C4061D4249D154500C477E9 /* colored.jpg */,
 				2C4E55D7249C2C94000093C7 /* cobblestone.jpg */,
 				2C4E55D5249A9922000093C7 /* texture.jpg */,
 			);
@@ -106,8 +102,8 @@
 		2C6D745C2496887C00B015A3 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
-				2C41B141248DE04600A6882A /* rainbow.frag */,
-				2C41B142248DE05B00A6882A /* rainbow.vert */,
+				2C41B141248DE04600A6882A /* texture.frag */,
+				2C41B142248DE05B00A6882A /* texture.vert */,
 				2C6D756C2496D55000B015A3 /* red.frag */,
 				2C6D756B2496D54200B015A3 /* red.vert */,
 			);

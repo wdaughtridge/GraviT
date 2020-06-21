@@ -11,9 +11,8 @@
 int GraviT::Application::Run() const {
     if (m_window->Init()) m_logger->ErrorLog(FILELOC, "Application window not initialized.");
     
-    if (m_renderer->Init()) m_logger->ErrorLog(FILELOC, "Renderer not initialized.");
-    
-    if (m_renderer->Start()) m_logger->ErrorLog(FILELOC, "Renderer not started.");
+    m_renderer->Init();
+    m_renderer->Start();
 
     glfwTerminate();
     

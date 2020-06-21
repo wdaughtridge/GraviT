@@ -22,7 +22,7 @@ public:
     
     void Bind() const;
     void Delete();
-    void BufferData(const void* vertices, const int size) const;
+    void BufferData(const void* vertices, const int size, const GLenum dataType) const;
     void Unbind() const { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); }
 };
 
