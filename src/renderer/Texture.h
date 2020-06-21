@@ -23,7 +23,7 @@ private:
     int m_subTextureSizePx;
     
 public:
-    Texture(const char* source) {
+    Texture(const char* source) : m_subTextureSizePx(0) {
         if (!source) return;
         glBindVertexArray(1);
         

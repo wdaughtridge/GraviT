@@ -30,38 +30,20 @@ void GraviT::Renderer::Start() const {
     GraviT::Texture diamond("asset/texture.jpg");
     GraviT::Texture sprsht("asset/spritesheet.jpg", 16);
     
-    Object::VertexData vertex0;
-    vertex0.position = glm::vec3(0.0f, 0.0f, 0.0f);
-    vertex0.color = glm::vec4();
-    vertex0.textureCoord = Object::NormalizeTextureCoord(sprsht, glm::vec2(9.0f, 9.0f), glm::vec2(0.0f, 0.0f));
-    vertex0.textureIndex = glm::vec2(0.0f, 0.0f);
+    std::vector<Object::VertexData> vertices = GraviT::Object::GenerateQuad(4, glm::vec3(), glm::vec4(), sprsht, glm::vec2(9,9));
+    std::vector<unsigned int> indices{3, 1, 0, 2, 3, 0};
     
-    Object::VertexData vertex1;
-    vertex1.position = glm::vec3(1.0f, 0.0f, 0.0f);
-    vertex1.color = glm::vec4();
-    vertex1.textureCoord = Object::NormalizeTextureCoord(sprsht, glm::vec2(9.0f, 9.0f), glm::vec2(1.0f, 0.0f));
-    vertex1.textureIndex = glm::vec2(0.0f, 0.0f);
+    std::vector<std::vector<Object::VertexData>> wall;
     
-    Object::VertexData vertex2;
-    vertex2.position = glm::vec3(0.0f, 1.0f, 0.0f);
-    vertex2.color = glm::vec4();
-    vertex2.textureCoord = Object::NormalizeTextureCoord(sprsht, glm::vec2(9.0f, 9.0f), glm::vec2(0.0f, 1.0f));
-    vertex2.textureIndex = glm::vec2(0.0f, 0.0f);
+    for (int i = 0; i < 1000; i++) {
+        for (int j = 0; j < 1000; j++) {
+            wall.push_back(GraviT::Object::GenerateQuad(4, glm::vec3(i * 4, j * 4, 0.0f), glm::vec4(), sprsht, glm::vec2()));
+        }
+    }
     
-    Object::VertexData vertex3;
-    vertex3.position = glm::vec3(1.0f, 1.0f, 0.0f);
-    vertex3.color = glm::vec4();
-    vertex3.textureCoord = Object::NormalizeTextureCoord(sprsht, glm::vec2(9.0f, 9.0f), glm::vec2(1.0f, 1.0f));
-    vertex3.textureIndex = glm::vec2(0.0f, 0.0f);
+    Object::QuadBatch wallBatch = Object::GetQuadBatch(wall);
     
-    std::vector<Object::VertexData> vertices{vertex0, vertex1, vertex2, vertex3};
-    
-    std::vector<unsigned int> indices{
-        3, 1, 0,
-        2, 3, 0
-    };
-    
-    GraviT::Object stone(vertices, indices, GL_DYNAMIC_DRAW);
+    GraviT::Object blueWall(wallBatch.vertices, wallBatch.indices, GL_DYNAMIC_DRAW);
  
     // unbind the current vao and vbo
     glBindVertexArray(0);
@@ -79,7 +61,7 @@ void GraviT::Renderer::Start() const {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         cam.HandleInput();
         
-        stone.Draw(program, sprsht);
+        blueWall.Draw(program, sprsht);
 
         m_window->SwapBuffers();
         glfwPollEvents();

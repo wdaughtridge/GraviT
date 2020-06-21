@@ -29,6 +29,7 @@ private:
     GraviT::VertexArray m_vao;
     GraviT::VertexBuffer m_vbo;
     GraviT::ElementBuffer m_ebo;
+    int m_numIndices;
     
     glm::mat4 m_model;
 public:
@@ -37,6 +38,10 @@ public:
         glm::vec4 color;
         glm::vec2 textureCoord;
         glm::vec2 textureIndex;
+    };
+    struct QuadBatch {
+        std::vector<Object::VertexData> vertices;
+        std::vector<unsigned int> indices;
     };
 
     Object(const void* vertices, const void* indices, const GLenum dataType, const int numVertices, const int numIndices) {
@@ -54,7 +59,7 @@ public:
         glEnableVertexAttribArray(2);
     }
     
-    Object(const std::vector<Object::VertexData>& vertices, const std::vector<unsigned int>& indices, const GLenum dataType) {
+    Object(const std::vector<Object::VertexData>& vertices, const std::vector<unsigned int>& indices, const GLenum dataType) : m_numIndices((int)indices.size()) {
         m_vao.Bind();
         m_vbo.Bind();
         m_vbo.BufferData(vertices.data(), sizeof(VertexData) * (int)vertices.size(), dataType);
@@ -100,6 +105,9 @@ public:
     int DrawAtPos(GraviT::ShaderProgram& prog, glm::vec3 pos, float degrees);
     
     static glm::vec2 NormalizeTextureCoord(const GraviT::Texture& texture, const glm::vec2 sheetIndex, const glm::vec2 texCoord, const int numPixelsBetweenSprites = 1);
+    static std::vector<Object::VertexData> GenerateQuad(const int size, const glm::vec3 pos, const glm::vec3 upOrientation, const glm::vec4 color);
+    static std::vector<Object::VertexData> GenerateQuad(const int size, const glm::vec3 pos, const glm::vec3 upOrientation, const GraviT::Texture& tex, const glm::vec2 sheetIndex = glm::vec2());
+    static QuadBatch GetQuadBatch(std::vector<std::vector<Object::VertexData>> quadsToBatch);
 };
 
 }
