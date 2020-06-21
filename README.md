@@ -1,5 +1,5 @@
 # GraviT
-Rendering Engine by wdaughtridge
+Graphics renderer by wdaughtridge
 
 ## Info
-This is a bare-bones 2D (as of now) rendering engine in C++. It utilizes the GLFW library for window and context creation, and will support Windows and Mac platforms
+This is a bare-bones renderer in C++ that uses OpenGL as of now, but I do plan to integrate Vulkan into it sometime in the future. After it has enough features, I will use it to make a game of some sorts to test its limits.
