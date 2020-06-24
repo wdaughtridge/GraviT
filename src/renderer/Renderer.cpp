@@ -20,30 +20,61 @@ void GraviT::Renderer::Init() const {
 
 void GraviT::Renderer::Start() const {
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
+    
+    if (m_enableCulling)
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_FRONT);
     
     GraviT::ShaderProgram program("shaders/texture.vert", "shaders/texture.frag");
-    GraviT::ShaderProgram program2("shaders/red.vert", "shaders/red.frag");
+    
+    std::cout << "Current OpenGL version: " << glGetString(GL_VERSION) << std::endl;
     
     GraviT::Texture cobblestone("asset/cobblestone.jpg");
     GraviT::Texture diamond("asset/texture.jpg");
     GraviT::Texture sprsht("asset/spritesheet.jpg", 16);
     
-    std::vector<Object::VertexData> vertices = GraviT::Object::GenerateQuad(4, glm::vec3(), glm::vec4(), sprsht, glm::vec2(9,9));
-    std::vector<unsigned int> indices{3, 1, 0, 2, 3, 0};
-    
+    std::vector<std::vector<Object::VertexData>> floor;
+    std::vector<std::vector<Object::VertexData>> ceil;
     std::vector<std::vector<Object::VertexData>> wall;
     
-    for (int i = 0; i < 1000; i++) {
-        for (int j = 0; j < 1000; j++) {
-            wall.push_back(GraviT::Object::GenerateQuad(4, glm::vec3(i * 4, j * 4, 0.0f), glm::vec4(), sprsht, glm::vec2()));
+    for (int i = 0; i < 100; i++) {
+        for (int j = 0; j < 100; j++) {
+            floor.push_back(GraviT::Object::GenerateQuad(4, glm::vec3(i * 4, j * 4, 0.0f), sprsht, true, 1.0f, glm::vec2(8.0f, 10.0f)));
+            ceil.push_back(GraviT::Object::GenerateQuad(4, glm::vec3(i * 4, j * 4, 0.0f), sprsht, true, 1.0f, glm::vec2(1.0f, 1.0f)));
+            if (j < 50)
+                wall.push_back(GraviT::Object::GenerateQuad(4, glm::vec3(i * 4, j * 4, 0.0f), sprsht, true, 1.0f, glm::vec2(16.0f, 7.0f)));
         }
     }
     
-    Object::QuadBatch wallBatch = Object::GetQuadBatch(wall);
+    Object::QuadBatch floorBatch = Object::GetQuadBatch(floor, false);
+    Object::QuadBatch ceilBatch = Object::GetQuadBatch(ceil, true);
     
-    GraviT::Object blueWall(wallBatch.vertices, wallBatch.indices, GL_DYNAMIC_DRAW);
+    GraviT::Object texFloor(floorBatch.vertices, floorBatch.indices, GL_STATIC_DRAW);
+    GraviT::Object texCeil(ceilBatch.vertices, ceilBatch.indices, GL_STATIC_DRAW);
+    
+    texFloor.SetPos(glm::vec3(0.0f, 0.0f, 400.0f));
+    texFloor.SetRotation(-90, glm::vec3(1.0f, 0.0f, 0.0f));
+    texCeil.SetPos(glm::vec3(0.0f, 200.0f, 0.0f));
+    texCeil.SetRotation(90, glm::vec3(1.0f, 0.0f, 0.0f));
+    
+    Object::QuadBatch wallBatch0 = Object::GetQuadBatch(wall, true);
+    Object::QuadBatch wallBatch1 = Object::GetQuadBatch(wall, true);
+    Object::QuadBatch wallBatch2 = Object::GetQuadBatch(wall, true);
+    Object::QuadBatch wallBatch3 = Object::GetQuadBatch(wall, true);
+    
+    GraviT::Object texWall0(wallBatch0.vertices, wallBatch0.indices, GL_STATIC_DRAW);
+    GraviT::Object texWall1(wallBatch1.vertices, wallBatch1.indices, GL_STATIC_DRAW);
+    GraviT::Object texWall2(wallBatch2.vertices, wallBatch2.indices, GL_STATIC_DRAW);
+    GraviT::Object texWall3(wallBatch3.vertices, wallBatch3.indices, GL_STATIC_DRAW);
+    
+    texWall0.SetPos(glm::vec3(400.0f, 0.0f, 400.0f));
+    texWall0.SetRotation(180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+    
+    texWall1.SetPos(glm::vec3(400.0f, 0.0f, 0.0f));
+    texWall1.SetRotation(-90, glm::vec3(0.0f, 1.0f, 0.0f));
+    
+    texWall3.SetPos(glm::vec3(0.0f, 0.0f, 400.0f));
+    texWall3.SetRotation(90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
  
     // unbind the current vao and vbo
     glBindVertexArray(0);
@@ -51,18 +82,34 @@ void GraviT::Renderer::Start() const {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     
     program.Use();
-    program.setUniform1i("ourTexture", 0);
     
-    GraviT::Camera cam(m_window, &program, false, glm::vec3(0.0f, 0.0f, 6.0f));
+    glActiveTexture(GL_TEXTURE0);
+    cobblestone.Bind();
+    glActiveTexture(GL_TEXTURE1);
+    sprsht.Bind();
+    glActiveTexture(GL_TEXTURE2);
+    diamond.Bind();
     
-    program.setUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(glm::perspective(glm::radians(45.0f), (float)m_window->windowDimensions.m_width / (float)m_window->windowDimensions.m_height, 0.1f, 100.0f)));
+    int samplers[3] = {0, 1, 2};
+    program.setUniform1iv("uTexture", 3, samplers);
+    
+    GraviT::Camera cam(m_window, &program, false, glm::vec3(0.0f, 2.0f, 6.0f));
     
     while (!m_window->ShouldClose()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         cam.HandleInput();
         
-        blueWall.Draw(program, sprsht);
-
+        program.setUniform3f("lightColor", 0.8f, 0.8f, 0.8f);
+        program.setUniform3f("viewPos", cam.m_cameraPosition.x, cam.m_cameraPosition.y, cam.m_cameraPosition.z);
+        program.setUniform3f("lightPos", cam.m_cameraPosition.x, cam.m_cameraPosition.y, cam.m_cameraPosition.z);
+        
+        texWall0.Draw(program);
+        texWall1.Draw(program);
+        texWall2.Draw(program);
+        texWall3.Draw(program);
+        texFloor.Draw(program);
+        texCeil.Draw(program);
+        
         m_window->SwapBuffers();
         glfwPollEvents();
     }

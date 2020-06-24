@@ -21,7 +21,6 @@ private:
     int m_textureWidth;
     int m_nrChannels;
     int m_subTextureSizePx;
-    
 public:
     Texture(const char* source) : m_subTextureSizePx(0) {
         if (!source) return;
@@ -58,7 +57,7 @@ public:
     glm::vec2 GetDimensions() const { return glm::vec2(m_textureWidth, m_textureHeight); }
     int GetSubTexSize() const { return m_subTextureSizePx; }
     int LoadTextureFromFile(const char* source);
-    int Bind() const;
+    void Bind() const;
 };
 
 }

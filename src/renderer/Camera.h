@@ -12,8 +12,9 @@
 namespace GraviT {
 
 class Camera {
-private:
+public:
     glm::vec3 m_cameraPosition;
+private:
     glm::vec3 m_cameraFront;
     glm::vec3 m_cameraUp;
     glm::mat4 m_view;
@@ -25,7 +26,7 @@ private:
     std::shared_ptr<GraviT::Window> m_window;
     GraviT::ShaderProgram* m_program;
     
-    const float m_cameraSpeed = 0.07f;
+    const float m_cameraSpeed = 0.7f;
     const float m_mouse_sensitivity = 0.1f;
     bool m_sprinting = false;
 public:
@@ -33,6 +34,7 @@ public:
     : m_cameraPosition(position), m_cameraFront(front), m_cameraUp(up), m_view(glm::lookAt(m_cameraPosition, m_cameraPosition + m_cameraFront, m_cameraUp)), m_movement_2d_active(movement_2d_active), m_window(window), m_program(program), m_yaw(yaw), m_pitch(pitch)
     {
         glfwGetCursorPos(m_window->m_window, &m_last_x_pos, &m_last_y_pos);
+        m_program->setUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(glm::perspective(glm::radians(45.0f), (float)m_window->windowDimensions.m_width / (float)m_window->windowDimensions.m_height, 0.1f, 800.0f)));
     }
     
     void MoveForward() {

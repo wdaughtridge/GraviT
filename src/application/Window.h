@@ -44,6 +44,8 @@ public:
 
     int SwapBuffers() const;
     int ShouldClose() const;
+    
+    static void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 };
 
 }

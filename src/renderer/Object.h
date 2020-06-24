@@ -37,14 +37,16 @@ public:
         glm::vec3 position;
         glm::vec4 color;
         glm::vec2 textureCoord;
-        glm::vec2 textureIndex;
+        glm::vec2 sheetIndex;
+        float textureNum;
+        glm::vec3 normal;
     };
     struct QuadBatch {
         std::vector<Object::VertexData> vertices;
         std::vector<unsigned int> indices;
     };
 
-    Object(const void* vertices, const void* indices, const GLenum dataType, const int numVertices, const int numIndices) {
+    Object(const void* vertices, const void* indices, const GLenum dataType, const int numVertices, const int numIndices) : m_model(1.0f) {
         m_vao.Bind();
         m_vbo.Bind();
         m_vbo.BufferData(vertices, sizeof(VertexData) * numVertices, dataType);
@@ -57,9 +59,13 @@ public:
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(sizeof(glm::vec3) + sizeof(glm::vec4)));
         glEnableVertexAttribArray(2);
+        glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(sizeof(glm::vec3) + sizeof(glm::vec4) + sizeof(glm::vec2) + sizeof(glm::vec2)));
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(sizeof(glm::vec3) + sizeof(glm::vec4) + sizeof(glm::vec2) + sizeof(glm::vec2) + sizeof(float)));
+        glEnableVertexAttribArray(4);
     }
     
-    Object(const std::vector<Object::VertexData>& vertices, const std::vector<unsigned int>& indices, const GLenum dataType) : m_numIndices((int)indices.size()) {
+    Object(const std::vector<Object::VertexData>& vertices, const std::vector<unsigned int>& indices, const GLenum dataType) : m_model(1.0f),  m_numIndices((int)indices.size()) {
         m_vao.Bind();
         m_vbo.Bind();
         m_vbo.BufferData(vertices.data(), sizeof(VertexData) * (int)vertices.size(), dataType);
@@ -72,9 +78,13 @@ public:
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(sizeof(glm::vec3) + sizeof(glm::vec4)));
         glEnableVertexAttribArray(2);
+        glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(sizeof(glm::vec3) + sizeof(glm::vec4) + sizeof(glm::vec2) + sizeof(glm::vec2)));
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(sizeof(glm::vec3) + sizeof(glm::vec4) + sizeof(glm::vec2) + sizeof(glm::vec2) + sizeof(float)));
+        glEnableVertexAttribArray(4);
     }
     
-    Object(const int numVertices) {
+    Object(const int numVertices) : m_model(1.0f) {
         m_vao.Bind();
         m_vbo.Bind();
         m_vbo.BufferData(nullptr, numVertices * sizeof(VertexData), GL_DYNAMIC_DRAW);
@@ -88,6 +98,10 @@ public:
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(sizeof(glm::vec3) + sizeof(glm::vec4)));
         glEnableVertexAttribArray(2);
+        glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(sizeof(glm::vec3) + sizeof(glm::vec4) + sizeof(glm::vec2) + sizeof(glm::vec2)));
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(sizeof(glm::vec3) + sizeof(glm::vec4) + sizeof(glm::vec2) + sizeof(glm::vec2) + sizeof(float)));
+        glEnableVertexAttribArray(4);
     }
     
     ~Object() {
@@ -99,15 +113,16 @@ public:
     void UpdateVertexBufferData(const std::vector<GraviT::Object::VertexData>& vertices, const int offset = 0) const;
     void UpdateElementBufferData(const std::vector<unsigned int>& indices, const int offset = 0) const;
     
-    int Draw(GraviT::ShaderProgram& prog, GraviT::Texture& tex);
-    int DrawAtPos(GraviT::ShaderProgram& prog, glm::vec3 pos);
-    int DrawAtPos(GraviT::ShaderProgram& prog, GraviT::Texture& tex, glm::vec3 pos);
-    int DrawAtPos(GraviT::ShaderProgram& prog, glm::vec3 pos, float degrees);
+    void Draw(const GraviT::ShaderProgram& prog, const GraviT::Texture& tex) const;
+    void Draw(const GraviT::ShaderProgram& prog) const;
+    void SetPos(const glm::vec3 newPosition);
+    void SetRotation(const float deg, const glm::vec3 axis);
+    void ResetModel();
     
     static glm::vec2 NormalizeTextureCoord(const GraviT::Texture& texture, const glm::vec2 sheetIndex, const glm::vec2 texCoord, const int numPixelsBetweenSprites = 1);
-    static std::vector<Object::VertexData> GenerateQuad(const int size, const glm::vec3 pos, const glm::vec3 upOrientation, const glm::vec4 color);
-    static std::vector<Object::VertexData> GenerateQuad(const int size, const glm::vec3 pos, const glm::vec3 upOrientation, const GraviT::Texture& tex, const glm::vec2 sheetIndex = glm::vec2());
-    static QuadBatch GetQuadBatch(std::vector<std::vector<Object::VertexData>> quadsToBatch);
+    static std::vector<Object::VertexData> GenerateQuad(const int size, const glm::vec3 pos, const glm::vec4 color);
+    static std::vector<Object::VertexData> GenerateQuad(const int size, const glm::vec3 pos, const GraviT::Texture& tex, const bool normalize, const float textureNum, const glm::vec2 sheetIndex);
+    static QuadBatch GetQuadBatch(std::vector<std::vector<Object::VertexData>> quadsToBatch, const bool frontCulling);
 };
 
 }

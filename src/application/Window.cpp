@@ -9,6 +9,10 @@
 
 #include "Window.h"
 
+void GraviT::Window::FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
+    glViewport(0, 0, width, height);
+}
+
 int GraviT::Window::Init() {
     if (!glfwInit()) {
         m_logger->ErrorLog(FILELOC, "GLFW not initialized.");
@@ -22,12 +26,16 @@ int GraviT::Window::Init() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
     
+//    glfwWindowHint(GLFW_SAMPLES, 16);
+    
     m_window = glfwCreateWindow(windowDimensions.m_width, windowDimensions.m_height, "GraviT", NULL, NULL);
     if (!m_window) {
         glfwTerminate();
         m_logger->ErrorLog(FILELOC, "GLFW window not created.");
         return 1;
     }
+    
+//    glEnable(GL_MULTISAMPLE);
 
     int width, height;
     glfwGetFramebufferSize(m_window, &width, &height);
@@ -35,6 +43,7 @@ int GraviT::Window::Init() {
 
     glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwMakeContextCurrent(m_window);
+    glfwSetFramebufferSizeCallback(m_window, FramebufferSizeCallback);
     
     return 0;
 }

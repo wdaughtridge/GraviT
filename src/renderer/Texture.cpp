@@ -15,6 +15,8 @@ int GraviT::Texture::LoadTextureFromFile(const char *source) {
     stbi_set_flip_vertically_on_load(true);
     unsigned char* textureData = stbi_load(source, &m_textureWidth, &m_textureHeight, &m_nrChannels, 0);
     
+    if(!m_subTextureSizePx) m_subTextureSizePx = m_textureHeight;
+    
     if(textureData != nullptr) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_textureWidth, m_textureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
         glGenerateMipmap(GL_TEXTURE_2D);
@@ -29,9 +31,6 @@ int GraviT::Texture::LoadTextureFromFile(const char *source) {
     return 0;
 }
 
-int GraviT::Texture::Bind() const {
-    glActiveTexture(GL_TEXTURE0);
+void GraviT::Texture::Bind() const {
     glBindTexture(GL_TEXTURE_2D, m_textureID);
-    
-    return 0;
-};
+}

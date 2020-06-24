@@ -54,8 +54,6 @@
 		2C4E55D5249A9922000093C7 /* texture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = texture.jpg; sourceTree = "<group>"; };
 		2C4E55D6249B0989000093C7 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		2C4E55D7249C2C94000093C7 /* cobblestone.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cobblestone.jpg; sourceTree = "<group>"; };
-		2C6D756B2496D54200B015A3 /* red.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = red.vert; sourceTree = "<group>"; };
-		2C6D756C2496D55000B015A3 /* red.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = red.frag; sourceTree = "<group>"; };
 		2C6E089C248302D0005769F8 /* GraviT */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GraviT; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C6F737C2497D7C200521BE3 /* Mat4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mat4.h; sourceTree = "<group>"; };
 		2C6F737D2497DB7800521BE3 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
@@ -104,8 +102,6 @@
 			children = (
 				2C41B141248DE04600A6882A /* texture.frag */,
 				2C41B142248DE05B00A6882A /* texture.vert */,
-				2C6D756C2496D55000B015A3 /* red.frag */,
-				2C6D756B2496D54200B015A3 /* red.vert */,
 			);
 			path = shaders;
 			sourceTree = "<group>";

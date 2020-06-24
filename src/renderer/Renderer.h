@@ -41,15 +41,17 @@ private:
     std::shared_ptr<GraviT::Window> m_window;
     std::unique_ptr<GraviT::Logger> m_logger;
     
+    bool m_enableCulling;
     double x_pos;
     double y_pos;
 public:
-    Renderer(std::shared_ptr<GraviT::Window> window) : m_window(window), m_logger(std::make_unique<GraviT::Logger>("Renderer")) {}
+    Renderer(std::shared_ptr<GraviT::Window> window) : m_window(window), m_logger(std::make_unique<GraviT::Logger>("Renderer")), m_enableCulling(false) {}
     
     void Init() const;
     void Start() const;
     void UnbindCurrent() const;
     void Draw(const GraviT::VertexArray &vao, const GraviT::ElementBuffer &ebo, const GraviT::ShaderProgram &program) const;
+    void SetCulling(bool cullVal) { m_enableCulling = cullVal; }
 };
 
 }
