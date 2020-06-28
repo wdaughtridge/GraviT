@@ -41,7 +41,7 @@ public:
         float textureNum;
         glm::vec3 normal;
     };
-    struct QuadBatch {
+    struct Batch {
         std::vector<Object::VertexData> vertices;
         std::vector<unsigned int> indices;
     };
@@ -104,7 +104,7 @@ public:
         glEnableVertexAttribArray(4);
     }
     
-    ~Object() {
+    void Delete() {
         m_vao.Delete();
         m_vbo.Delete();
         m_ebo.Delete();
@@ -115,14 +115,22 @@ public:
     
     void Draw(const GraviT::ShaderProgram& prog, const GraviT::Texture& tex) const;
     void Draw(const GraviT::ShaderProgram& prog) const;
+    void DrawAtPos(const GraviT::ShaderProgram& prog, glm::vec3 pos) const;
     void SetPos(const glm::vec3 newPosition);
     void SetRotation(const float deg, const glm::vec3 axis);
     void ResetModel();
     
     static glm::vec2 NormalizeTextureCoord(const GraviT::Texture& texture, const glm::vec2 sheetIndex, const glm::vec2 texCoord, const int numPixelsBetweenSprites = 1);
-    static std::vector<Object::VertexData> GenerateQuad(const int size, const glm::vec3 pos, const glm::vec4 color);
-    static std::vector<Object::VertexData> GenerateQuad(const int size, const glm::vec3 pos, const GraviT::Texture& tex, const bool normalize, const float textureNum, const glm::vec2 sheetIndex);
-    static QuadBatch GetQuadBatch(std::vector<std::vector<Object::VertexData>> quadsToBatch, const bool frontCulling);
+    
+    static std::vector<Object::VertexData> GenerateQuadVertices(const int size, const glm::vec3 pos, const glm::vec4 color);
+    static std::vector<Object::VertexData> GenerateQuadVertices(const int size, const glm::vec3 pos, const GraviT::Texture& tex, const bool normalize, const float textureNum, const glm::vec2 sheetIndex, const int numPixelsBetweenSprts = 0);
+    
+    static std::vector<Object::VertexData> GenerateCubeVertices(const int size, const glm::vec3 pos, const GraviT::Texture& tex, const bool normalize, const float textureNum, const glm::vec2 sheetIndex, const int numPixelsBetweenSprts = 0);
+    
+    static std::vector<unsigned int> GenerateQuadIndices(const int numQuads, const bool frontCulling);
+    static std::vector<unsigned int> GenerateCubeIndices(const int numCubes, const bool frontCulling);
+    static Batch GetQuadBatch(std::vector<std::vector<Object::VertexData>> quadsToBatch, const bool frontCulling);
+    static Batch GetCubeBatch(std::vector<std::vector<Object::VertexData>> quadsToBatch, const bool frontCulling);
 };
 
 }

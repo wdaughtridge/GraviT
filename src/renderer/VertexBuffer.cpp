@@ -16,6 +16,6 @@ void GraviT::VertexBuffer::BufferData(const void* vertices, const int size, cons
     glBufferData(m_target, size, vertices, dataType);
 }
 
-void GraviT::VertexBuffer::Delete() {
+void GraviT::VertexBuffer::Delete() const {
     glDeleteBuffers(1, &m_bufferID);
 }

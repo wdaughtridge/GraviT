@@ -19,7 +19,7 @@ private:
 public:
     VertexArray() { glGenVertexArrays(1, &m_arrayID); }
     void Bind() const;
-    void Delete();
+    void Delete() const;
     void Unbind() const { glBindVertexArray(0); }
 };
 

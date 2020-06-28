@@ -12,6 +12,6 @@ void GraviT::VertexArray::Bind() const {
     glBindVertexArray(m_arrayID);
 }
 
-void GraviT::VertexArray::Delete() {
+void GraviT::VertexArray::Delete() const {
     glDeleteVertexArrays(1, &m_arrayID);
 }

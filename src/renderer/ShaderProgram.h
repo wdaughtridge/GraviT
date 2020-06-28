@@ -32,7 +32,7 @@ public:
     
     void Link() const;
     void Use() const;
-    void Delete();
+    void Delete() const;
     int GetID() const { return m_programID; }
     
     void setUniform1f(const char* uniName, float v0) const;

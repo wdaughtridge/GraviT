@@ -17,7 +17,7 @@ void GraviT::ShaderProgram::Use() const {
     glUseProgram(m_programID);
 }
 
-void GraviT::ShaderProgram::Delete() {
+void GraviT::ShaderProgram::Delete() const {
     glDeleteProgram(m_programID);
 }
 
@@ -28,6 +28,8 @@ void GraviT::ShaderProgram::HandleShaders() {
     m_vert.Delete();
     m_frag.Delete();
 }
+
+// UNIFORM SETTERS -------------------------------------------------------
 
 void GraviT::ShaderProgram::setUniform1f(const char* uniName, float v0) const {
     int uniLocation = glGetUniformLocation(m_programID, uniName);

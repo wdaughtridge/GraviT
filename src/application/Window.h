@@ -33,17 +33,19 @@ private:
     bool m_isFullScreen;
     std::unique_ptr<GraviT::Logger> m_logger;
 public:
+    bool m_isPaused;
     GLFWwindow* m_window;
     dimensions windowDimensions;
     
     Window(std::string winTitle, unsigned int winWidth, unsigned int winHeight, bool fullScreen)
-         : m_title(winTitle), windowDimensions(winWidth, winHeight), m_isFullScreen(fullScreen), m_logger(std::make_unique<GraviT::Logger>(m_title + " window")), m_window(nullptr) {}
+         : m_title(winTitle), windowDimensions(winWidth, winHeight), m_isFullScreen(fullScreen), m_logger(std::make_unique<GraviT::Logger>(m_title + " window")), m_isPaused(false), m_window(nullptr) {}
     
     // creates window on screen and context for rendering
-    virtual int Init();
+    int Init();
 
-    int SwapBuffers() const;
     int ShouldClose() const;
+    void SwapBuffers() const;
+    void HandleInput();
     
     static void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 };

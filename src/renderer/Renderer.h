@@ -34,6 +34,9 @@
 #include "Mat4.h"
 #include "Camera.h"
 
+#include "imgui_impl_opengl3.h"
+#include "imgui_impl_glfw.h"
+
 namespace GraviT {
 
 class Renderer {
@@ -49,9 +52,9 @@ public:
     
     void Init() const;
     void Start() const;
-    void UnbindCurrent() const;
-    void Draw(const GraviT::VertexArray &vao, const GraviT::ElementBuffer &ebo, const GraviT::ShaderProgram &program) const;
     void SetCulling(bool cullVal) { m_enableCulling = cullVal; }
+    static GraviT::Object::Batch ParseLevelFile2D(const std::string& path, const GraviT::Texture& tex);
+    static GraviT::Object::Batch ParseLevelFile3D(const std::string& path, const GraviT::Texture& tex);
 };
 
 }

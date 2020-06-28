@@ -13,6 +13,18 @@ void GraviT::Window::FramebufferSizeCallback(GLFWwindow* window, int width, int 
     glViewport(0, 0, width, height);
 }
 
+void GraviT::Window::HandleInput() {
+    if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) && !m_isPaused) {
+        glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        m_isPaused = true;
+    }
+    
+    else if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) && m_isPaused) {
+        glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        m_isPaused = false;
+    }
+}
+
 int GraviT::Window::Init() {
     if (!glfwInit()) {
         m_logger->ErrorLog(FILELOC, "GLFW not initialized.");
@@ -26,7 +38,7 @@ int GraviT::Window::Init() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
     
-//    glfwWindowHint(GLFW_SAMPLES, 16);
+    glfwWindowHint(GLFW_SAMPLES, 4);
     
     m_window = glfwCreateWindow(windowDimensions.m_width, windowDimensions.m_height, "GraviT", NULL, NULL);
     if (!m_window) {
@@ -35,7 +47,7 @@ int GraviT::Window::Init() {
         return 1;
     }
     
-//    glEnable(GL_MULTISAMPLE);
+    glEnable(GL_MULTISAMPLE);
 
     int width, height;
     glfwGetFramebufferSize(m_window, &width, &height);
@@ -52,8 +64,6 @@ int GraviT::Window::ShouldClose() const {
     return glfwWindowShouldClose(m_window);
 }
 
-int GraviT::Window::SwapBuffers() const {
+void GraviT::Window::SwapBuffers() const {
     glfwSwapBuffers(m_window);
-    
-    return 0;
 }
